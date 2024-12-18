@@ -1,0 +1,176 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* HEADER */
+header {
+  height: 500px;
+  background-color: #3BBFFB;
+  padding: 50px 50px 0 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#header-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#logo {
+  background-color: #000000;
+  width: 311px;
+  height: 68px;
+  color: #ffffff;
+}
+
+#logo-text {
+  display: flex;
+  padding: 5px;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+span {
+  font-size: 46px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  align-items: center;
+  margin: 2px;
+}
+
+#F {
+  color: #FC6719;
+}
+
+#L {
+  color: #FFCB14;
+}
+
+#M , #L1 {
+  color: #FF5572;
+}
+
+#K , #L2 {
+  color: #69B3E7;
+}
+
+#V {
+  color: #6BCABA;
+}
+
+/* NAVIGATION */
+nav {
+  display: flex;
+  align-items: center;
+  height: 68px;
+  padding-right: 345px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+
+li {
+  margin: 0 10px;
+  font-size: 25px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+nav a {
+  text-decoration: none;
+  color: #5b5b5b;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #FFCB14;
+}
+
+/* Styling för hamburger-menyn */
+.hamburger-menu {
+  width: 30px; /* Bredd på hela menyn */
+  height: 25px; /* Höjd på hela menyn */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Jämn fördelning av linjer */
+  cursor: pointer; /* Gör att muspekaren ändras till hand-symbol */
+}
+
+.hamburger-menu span {
+  display: block;
+  width: 100%; /* Full bredd av menyn */
+  height: 4px; /* Tjocklek på linjerna */
+  background-color: #5b5b5b; /* Färg på linjerna */
+  border-radius: 2px; /* Runda kanter */
+  transition: all 0.3s ease; /* Mjuk övergång för animationer */
+}
+
+#animation {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 75px;
+}
+
+/* MAIN */
+main {
+  padding: 50px;
+}
+
+/* Styling för #top4 */
+#top4 {
+  max-width: 1440px;
+  border: 1px solid black;
+  margin: auto;
+  display: grid;
+  grid-template-areas: 
+      "top4-title top1"
+      "top2-4 top2-4";
+  grid-template-columns: 1fr 1fr; /* Fördelar bredden i två kolumner */
+  grid-template-rows: auto 1fr; /* Definierar två rader */
+  height: 800px;
+  gap: 20px; /* Mellanrum mellan elementen */
+  padding: 20px;
+  box-sizing: border-box; /* Säkerställer att padding inte ökar storleken */
+}
+
+/* Titel i vänster kolumn */
+#top4-title {
+  grid-area: top4-title;
+  font-size: 2rem;
+  margin: 0; /* Tar bort default margin */
+  align-self: center; /* Centrera vertikalt */
+  justify-self: center;
+}
+
+/* Stor bild i höger kolumn */
+#top1 {
+  grid-area: top1;
+  width: 100%; /* Anpassa bilden till utrymmet */
+  height: auto;
+}
+
+/* Små bilder under */
+#top2-4 {
+  grid-area: top2-4;
+  display: flex; /* Använder flexbox för att rada upp bilderna horisontellt */
+  justify-content: space-around; /* Lägger bilderna jämnt fördelade */
+  align-items: center; /* Centrera bilderna vertikalt */
+}
+
+#top2-4 img {
+  width: 30%; /* Varje bild tar upp 30% av bredden */
+  height: auto;
+}
