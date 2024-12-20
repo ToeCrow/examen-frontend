@@ -215,6 +215,7 @@ h2 {
   align-items: center;
   margin: 12px;
   width: 110px;
+  cursor: pointer;
 }
 
 .icon-box i {
@@ -269,7 +270,7 @@ h2 {
 /* FOOTER */
 footer {
   background-color: #000;
-  padding: 50px 0;
+  padding: 50px 0 0 0;
 }
 
 #footer-logo {
@@ -320,7 +321,6 @@ footer {
 .footer-lists ul {
   display: flex;
   flex-direction: column;
-  justify-content: ;
 }
 
 .footer-icon-box {
@@ -332,6 +332,7 @@ footer {
   /* border: 1px solid white; */
   justify-content: flex-start;
   margin: auto;
+  cursor: pointer;
 }
 
 .footer-icon-box p {
@@ -372,4 +373,12 @@ footer a {
 
 footer a:hover {
   color: #FFCB14;
+}
+
+#copyright {
+  font-family: 'baloo 2', sans-serif;
+  color: #ffffff;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
 }
