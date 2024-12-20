@@ -180,10 +180,51 @@ h2 {
   margin: 50px 0;
 }
 
-#top2-4 img {
+#top2-4 .image-container {
   width: 30%; /* Varje bild tar upp 30% av bredden */
   height: auto;
 }
+/* #top2-4 img {
+  width: 30%; 
+  height: auto;
+} */
+
+/* Container för bild och overlay */
+.image-container {
+  position: relative;
+  display: inline-block;
+  width: 100%; /* Anpassa bredden */
+}
+
+/* Bildens styling */
+.image-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Styling för overlay-texten */
+.hover-text {
+  position: absolute;
+  bottom: 0; /* Position längst ner på bilden */
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7); /* Halvtransparent svart bakgrund */
+  color: white;
+  text-align: center;
+  padding: 10px;
+  opacity: 0; /* Dölj texten som standard */
+  transition: opacity 0.3s ease; /* Smidig övergång */
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 18px;
+}
+
+/* Visa overlay-texten vid hover */
+.image-container:hover .hover-text {
+  opacity: 1;
+  cursor: pointer;
+}
+
 
 #socialmedia {
   background-color: #6BCABA;
@@ -265,6 +306,16 @@ h2 {
 
 .film-img {
   width: 30%;
+}
+
+#top5-7 .image-container {
+  width: 30%; /* Varje bild tar upp 30% av bredden */
+  height: auto;
+}
+
+#top8-10 .image-container {
+  width: 30%; /* Varje bild tar upp 30% av bredden */
+  height: auto;
 }
 
 /* FOOTER */
