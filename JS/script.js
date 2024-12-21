@@ -75,9 +75,13 @@ function updateImages() {
     }
 }
 
-
 // Kör funktionen för att hämta filmer
 getFilmsTop10();
 
+// TODO MODAL för att visa mer info om varje film från
+//? kan jag göra den så att man hämtar id i klicket, och sen hämtar info. Så det går att använda samma modal på fler sidor.
+//! Måste göra modalen med innerHTML
 
-
+function showMovieInfo() {
+    
+}

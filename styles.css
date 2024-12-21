@@ -5,7 +5,7 @@ body {
 
 /* HEADER */
 header {
-  height: 500px;
+  height: 440px;
   background-color: #3BBFFB;
   padding: 50px 50px 0 50px;
   display: flex;
@@ -184,16 +184,14 @@ h2 {
   width: 30%; /* Varje bild tar upp 30% av bredden */
   height: auto;
 }
-/* #top2-4 img {
-  width: 30%; 
-  height: auto;
-} */
 
 /* Container för bild och overlay */
 .image-container {
   position: relative;
   display: inline-block;
   width: 100%; /* Anpassa bredden */
+  border: 3px solid black;
+  transition: box-shadow 0.3s ease, transform 0.3s ease; 
 }
 
 /* Bildens styling */
@@ -219,6 +217,11 @@ h2 {
   font-size: 18px;
 }
 
+.image-container:hover {
+  transform: translateY(-5px); /* Flyttar elementet uppåt för "lyfteffekt" */
+  box-shadow:  0 15px 25px rgba(0, 0, 0, 0.3), /* Stor suddig skugga nedåt */
+               0 5px 10px rgba(0, 0, 0, 0.2); 
+}
 /* Visa overlay-texten vid hover */
 .image-container:hover .hover-text {
   opacity: 1;

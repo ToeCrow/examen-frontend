@@ -1,0 +1,46 @@
+
+#modal {
+  width: 750px;
+  height: 550px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  margin: 50px auto;
+}
+
+#movie-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 50px 0 50px 50px;
+}
+
+#movie-info h3 {
+  font-size: 40px;
+  margin-top: 0;
+  text-align: center;
+}
+
+#movie-info p {
+  font-size: 18px;
+}
+
+#movie-info-text{
+  margin: 0;
+}
+
+#movie-info-date{
+  margin-right: auto;
+}
+
+#modal-info {
+  bottom: 0;
+  color: red;
+  margin-top: auto;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+#movie-poster {
+  margin: 50px;
+}
