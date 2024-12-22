@@ -8,7 +8,6 @@ const randomColors = Array.from({ length: 10 }, () => colors[Math.floor(Math.ran
 
 function updateBackgroundColors() {
     // Slumpa 3 färger för början och 3 för animationen
-    const randomColors = Array.from({ length: 6 }, () => colors[Math.floor(Math.random() * colors.length)]);
   
     // Uppdatera CSS-variablerna med de slumpmässiga färgerna
     document.documentElement.style.setProperty('--color1', randomColors[0]);
