@@ -25,9 +25,8 @@ function updateBackgroundColors() {
 
 const main = document.getElementById('main');
 document.querySelector('nav').addEventListener('click', (event) => {
-    // Kontrollera om användaren klickade på en länk
     if (event.target.tagName === 'A') {
-        event.preventDefault(); // Förhindra standard beteende (sidladdning)
+        event.preventDefault(); 
         
         const href = event.target.getAttribute('href');
         handleNavigation(href);
@@ -175,13 +174,17 @@ let best200Movies = [];
 // Funktion för att hämta filmer och lägga dem i startpageTop10
 async function getFilmsTop10() {
     try {
-        const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=true&page=1`);
-        const data = await response.json();
-
-        // Hämta endast de 10 första filmerna
-        startpageTop10 = data.results.slice(0, 10);
-        console.log("startpageTop10: ", startpageTop10)
+        const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=true&page=1`;
+        const response = await fetch(url);
         
+        if (!response.ok) {
+            handleApiError(response.status); // Anropa felhanteringsfunktionen om status är något annat än 200
+            return;
+        }
+
+        const data = await response.json();
+        startpageTop10 = data.results.slice(0, 10);
+        console.log("startpageTop10: ", startpageTop10);
         updateImages();
     } catch (error) {
         console.error('Fel vid hämtning av filmer:', error);
@@ -190,23 +193,22 @@ async function getFilmsTop10() {
 
 async function best200ever() {
     try {
-        // Skapa en array med sidor att hämta (1 till 10)
         const pages = Array.from({ length: 10 }, (_, i) => i + 1);
+        const fetchPromises = pages.map(page => {
+            const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&include_adult=false&include_video=false&language=en-US&sort_by=vote_average.desc&without_genres=99&vote_count.gte=200&page=${page}`;
+            return fetch(url).then(response => {
+                if (!response.ok) {
+                    handleApiError(response.status); // Anropa felhanteringsfunktionen om status är något annat än 200
+                    throw new Error(`API request failed with status: ${response.status}`); // Stoppa vidare körning
+                }
+                return response.json(); // Annars, fortsätt med att hämta JSON
+            });
+        });
 
-        // Map varje sida till ett fetch-anrop
-        const fetchPromises = pages.map(page => 
-            fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&include_adult=false&include_video=false&language=en-US&sort_by=vote_average.desc&without_genres=99&vote_count.gte=200&page=${page}`)
-                .then(response => response.json()) // Omvandla varje fetch-resultat till JSON
-        );
-
-        // Kör alla anrop parallellt med Promise.all
         const results = await Promise.all(fetchPromises);
-
-        // Extrahera och kombinera alla filmer från varje sida
-         best200Movies = results.flatMap(data => data.results);
-
+        best200Movies = results.flatMap(data => data.results);
         console.log("best200Movies:", best200Movies);
-        return best200Movies; // Returnera om du vill använda resultatet vidare
+        return best200Movies;
     } catch (error) {
         console.error('Fel vid hämtning av filmer:', error);
     }
@@ -311,3 +313,42 @@ function showBest200() {
     main.appendChild(sectionB200);
 }
 
+function handleApiError(statusCode) {
+    switch (statusCode) {
+        case 200:
+            console.log("Success: Data hämtades framgångsrikt.");
+            break;
+        case 401:
+            console.error("Authentication failed: Du har inte behörighet att komma åt tjänsten eller ogiltig API-nyckel.");
+            break;
+        case 403:
+            console.error("Access Denied: Du har inte rätt att komma åt den här resursen.");
+            break;
+        case 404:
+            console.error("Resource not found: Den begärda resursen kunde inte hittas.");
+            break;
+        case 405:
+            console.error("Method not allowed: Ogiltig metod för den här resursen.");
+            break;
+        case 422:
+            console.error("Invalid parameters: De skickade parametrarna är felaktiga.");
+            break;
+        case 500:
+            console.error("Internal server error: Något gick fel på servern.");
+            break;
+        case 502:
+            console.error("Bad Gateway: Problem med att ansluta till backend-servern.");
+            break;
+        case 503:
+            console.error("Service Unavailable: Tjänsten är för närvarande otillgänglig.");
+            break;
+        case 504:
+            console.error("Gateway Timeout: Begäran till backend-servern gick inte igenom.");
+            break;
+        case 429:
+            console.error("Too many requests: Din begäran överskrider den tillåtna gränsen.");
+            break;
+        default:
+            console.error("Okänd felkod: Något gick fel, statuskod:", statusCode);
+    }
+}
