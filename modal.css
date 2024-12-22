@@ -1,13 +1,3 @@
-
-#modal {
-  width: 750px;
-  height: 550px;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: row;
-  margin: 50px auto;
-}
-
 #movie-info {
   display: flex;
   flex-direction: column;
@@ -43,4 +33,42 @@
 
 #movie-poster {
   margin: 50px;
+}
+
+/* Modal grundläggande styling */
+#modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s;
+}
+
+#modal-wrap {
+  max-width: 750px;
+  max-height: 550px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  margin: 50px auto;
+  background-color: white;
+  margin: 20px;
+}
+
+#modal.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+#modal:not(.hidden) {
+  visibility: visible;
+  opacity: 1;
 }

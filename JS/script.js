@@ -61,11 +61,12 @@ function updateImages() {
         // Skapa overlay-text
         const hoverText = document.createElement('div');
         hoverText.classList.add('hover-text'); // Klass för styling
-        hoverText.textContent = `För att få mer info om "${film.title}", klicka här.`;
+        hoverText.textContent = `För att få mer info om "${film.title}", klicka på bilden.`;
 
-        // Lägg till bild och overlay-text i containern
+        // Lägg till bild och overlay-text i containern med eventlistener
         imageContainer.appendChild(image);
         imageContainer.appendChild(hoverText);
+        imageContainer.addEventListener('click', () => showMovieInfo(film));
 
         // Byt ut befintlig bild med vår container
         const existingImage = document.getElementById(`top${i + 1}`);
@@ -82,6 +83,33 @@ getFilmsTop10();
 //? kan jag göra den så att man hämtar id i klicket, och sen hämtar info. Så det går att använda samma modal på fler sidor.
 //! Måste göra modalen med innerHTML
 
-function showMovieInfo() {
-    
+// Funktion för att visa information i modal
+function showMovieInfo(film) {
+    // Hämta modal-elementet
+    const modal = document.getElementById('modal');
+
+    // Fyll modalen dynamiskt med information om filmen
+    modal.innerHTML = `
+        <div id="modal-wrap">
+            <div id="movie-info">
+                <h3>${film.title}</h3>
+                <p id="movie-info-text">${film.overview || "Ingen beskrivning tillgänglig."}</p>
+                <p id="movie-info-date">Releasedate: ${film.release_date || "N/A"}</p>
+                <p id="modal-info">Klicka igen för att stänga</p>
+            </div>
+            <div id="movie-poster">
+                <img src="https://image.tmdb.org/t/p/w300/${film.poster_path}" alt="${film.title}">
+            </div>
+        </div>
+    `;
+
+    // Visa modalen
+    modal.classList.remove('hidden');
+
+    // Lägg till en klicklyssnare för att stänga modalen
+    modal.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        modal.innerHTML = ''; // Rensa innehållet för att förhindra duplicering
+    }, { once: true }); // Se till att eventlisten tas bort efter en gång
 }
+
