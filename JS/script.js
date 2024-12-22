@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     showStartPageMain();
-    getFilmsTop10();
-    best200ever();
+    loadData();
 });
 
 const colors = ['#ffffff','#ffffff','#FC6719', '#6BCABA', '#69B3E7', '#ffffff', '#FF5572', '#FFCB14', '#ffffff', '#ffffff'];
@@ -169,14 +168,34 @@ main.appendChild(top510Section);
 }
 
 let startpageTop10 = []; // Array för att spara topp 10 filmer
-let best200Movies = [];
+let best200Movies = [];  // Array för de 200 bästa filmerna
+let genre = [];          // Array för filmgenrer
+
+// Funktion för att hämta filmgenrer
+async function getGenres() {
+    try {
+        const url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            handleApiError(response.status); // Anropa felhanteringsfunktionen om status är något annat än 200
+            return;
+        }
+
+        const data = await response.json();
+        genre = data.genres; // Spara filmgenrer i genre-arrayen
+        console.log("Genres:", genre);
+    } catch (error) {
+        console.error('Fel vid hämtning av genrer:', error);
+    }
+}
 
 // Funktion för att hämta filmer och lägga dem i startpageTop10
 async function getFilmsTop10() {
     try {
         const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=true&page=1`;
         const response = await fetch(url);
-        
+
         if (!response.ok) {
             handleApiError(response.status); // Anropa felhanteringsfunktionen om status är något annat än 200
             return;
@@ -191,6 +210,7 @@ async function getFilmsTop10() {
     }
 }
 
+// Funktion för att hämta de 200 bästa filmerna
 async function best200ever() {
     try {
         const pages = Array.from({ length: 10 }, (_, i) => i + 1);
@@ -212,6 +232,15 @@ async function best200ever() {
     } catch (error) {
         console.error('Fel vid hämtning av filmer:', error);
     }
+}
+
+// Anropa alla funktioner när sidan laddas
+async function loadData() {
+    await Promise.all([
+        getFilmsTop10(),
+        best200ever(),
+        getGenres() // Lägger till hämting av genrer här
+    ]);
 }
 
 
@@ -278,40 +307,80 @@ function showMovieInfo(film) {
 
 function showBest200() {
     main.innerHTML = ""; // Töm main innan ny rendering
+    const sectionButtons = document.createElement('section');
+    sectionButtons.id = "filterByGenre";
     const sectionB200 = document.createElement('section');
     sectionB200.id = "b200";
 
-    for (let i = 0; i < best200Movies.length; i++) {
-        const film = best200Movies[i];
-        
-        const container = document.createElement('div');
-        container.className = "b200-container";
-        container.addEventListener('click', () => showMovieInfo(film));
-
-        // Slumpa en bakgrundsfärg från listan
-        const randomColor = colors[Math.floor(Math.random() * colors.length)];
-        container.style.backgroundColor = randomColor; // Tilldela den slumpmässiga färgen
-
-        const title = document.createElement('h5');
-        title.textContent = `${i + 1} ${film.title}`;
-
-        const img = document.createElement('img');
-        img.src = `https://image.tmdb.org/t/p/w300${film.poster_path}`;
-        img.alt = film.title;
-
-        const hoverText = document.createElement('div');
-        hoverText.className = "b200-hovertext";
-        hoverText.textContent = "Klicka för info";
-
-        container.appendChild(title);
-        container.appendChild(img);
-        container.appendChild(hoverText);
-
-        sectionB200.appendChild(container);
+    // Funktion för att filtrera filmer
+    function filterMoviesByGenre(genreId) {
+        const filteredMovies = best200Movies.filter(film => 
+            film.genre_ids.includes(genreId)
+        );
+        displayMovies(filteredMovies);
     }
 
+    const showAllButton = document.createElement('button');
+    showAllButton.innerText = "Visa Alla";
+    showAllButton.className = "filterButtons";
+    showAllButton.addEventListener('click', () => displayMovies(best200Movies));
+    sectionButtons.appendChild(showAllButton);
+
+
+    // Rendera knappar för varje genre
+    for (let i = 0; i < genre.length; i++) {
+        const label = genre[i];
+
+        const button = document.createElement('button');
+        button.id = `button-${label.name}`;
+        button.innerText = `${label.name}`;
+        button.className = "filterButtons";
+        button.addEventListener('click', () => filterMoviesByGenre(label.id));
+
+        sectionButtons.appendChild(button);
+    }
+
+    // Funktion för att rendera filmer
+    function displayMovies(movies) {
+        sectionB200.innerHTML = ""; // Töm sektionen innan rendering
+
+        for (let i = 0; i < movies.length; i++) {
+            const film = movies[i];
+            
+            const container = document.createElement('div');
+            container.className = "b200-container";
+            container.addEventListener('click', () => showMovieInfo(film));
+
+            // Slumpa en bakgrundsfärg från listan
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            container.style.backgroundColor = randomColor; // Tilldela den slumpmässiga färgen
+
+            const title = document.createElement('h5');
+            title.textContent = `${i + 1} ${film.title}`;
+
+            const img = document.createElement('img');
+            img.src = `https://image.tmdb.org/t/p/w300${film.poster_path}`;
+            img.alt = film.title;
+
+            const hoverText = document.createElement('div');
+            hoverText.className = "b200-hovertext";
+            hoverText.textContent = "Klicka för info";
+
+            container.appendChild(title);
+            container.appendChild(img);
+            container.appendChild(hoverText);
+
+            sectionB200.appendChild(container);
+        }
+    }
+
+    // Visa alla filmer från början
+    displayMovies(best200Movies);
+
+    main.appendChild(sectionButtons);
     main.appendChild(sectionB200);
 }
+
 
 function handleApiError(statusCode) {
     switch (statusCode) {
