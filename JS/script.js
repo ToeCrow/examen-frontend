@@ -1,31 +1,122 @@
+document.addEventListener('DOMContentLoaded', showStartPageMain);
 
-// OMDB API
-// async function getFilms() {
-//     try {
-//         let page = 1;
-//         let allResults = [];
-//         let hasMore = true;
+function showStartPageMain () {
+// Hämta main-elementet från DOM
+const main = document.getElementById('main');
 
-//         while (hasMore) {
-//             const response = await fetch(`http://www.omdbapi.com/?s=batman&type=movie&page=${page}&plot=full&apikey=${apiKey2}`);
-//             const data = await response.json();
+// Skapa och append `section` för top-4
+const top4Section = document.createElement('section');
+top4Section.id = 'top-4';
 
-//             if (data.Search) {
-//                 allResults = allResults.concat(data.Search);
-//                 page++;
-//                 hasMore = page <= Math.ceil(data.totalResults / 10); // Stoppar när alla sidor är hämtade
-//             } else {
-//                 hasMore = false; // Stoppar vid fel
-//             }
-//         }
+const top4Title = document.createElement('h2');
+top4Title.id = 'top4-title';
+top4Title.textContent = 'DE HETASTE FILMERNA JUST NU!';
 
-//         console.log(allResults);
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
+const top1Img = document.createElement('img');
+top1Img.src = '';
+top1Img.alt = 'Film';
+top1Img.id = 'top1';
 
-// TMDB API
+const top24Div = document.createElement('div');
+top24Div.id = 'top2-4';
+
+for (let i = 2; i <= 4; i++) {
+    const img = document.createElement('img');
+    img.src = '';
+    img.alt = 'Film';
+    img.id = `top${i}`;
+    top24Div.appendChild(img);
+}
+
+// Lägg till i top-4 section
+top4Section.appendChild(top4Title);
+top4Section.appendChild(top1Img);
+top4Section.appendChild(top24Div);
+
+// Append till main
+main.appendChild(top4Section);
+
+// Skapa och append `section` för social media
+const socialMediaSection = document.createElement('section');
+socialMediaSection.id = 'socialmedia';
+
+const socialMediaWrapper = document.createElement('div');
+socialMediaWrapper.id = 'socialmedia-wrapper';
+
+const socialTitle = document.createElement('h2');
+socialTitle.id = 'social-title';
+socialTitle.textContent = 'FÖLJ OSS PÅ SOCIALA MEDIER';
+
+const iconWrapper = document.createElement('div');
+iconWrapper.id = 'icon-wrapper';
+
+const socialMediaPlatforms = [
+    { iconClass: 'fa-brands fa-instagram', name: 'Instagram' },
+    { iconClass: 'fa-brands fa-tiktok', name: 'Tiktok' },
+    { iconClass: 'fa-brands fa-facebook-f', name: 'Facebook' },
+    { iconClass: 'fa-solid fa-m', name: 'Mynewsdesk' },
+    { iconClass: 'fa-brands fa-linkedin-in', name: 'Linkedin' },
+];
+
+socialMediaPlatforms.forEach(platform => {
+    const iconBox = document.createElement('div');
+    iconBox.classList.add('icon-box');
+
+    const iconCircle = document.createElement('div');
+    iconCircle.classList.add('icon-cirkel');
+    const icon = document.createElement('i');
+    icon.className = platform.iconClass;
+    icon.classList.add('custom-icon');
+
+    iconCircle.appendChild(icon);
+    iconBox.appendChild(iconCircle);
+
+    const platformName = document.createElement('p');
+    platformName.textContent = platform.name;
+    iconBox.appendChild(platformName);
+
+    iconWrapper.appendChild(iconBox);
+});
+
+// Lägg till i socialmedia section
+socialMediaWrapper.appendChild(socialTitle);
+socialMediaWrapper.appendChild(iconWrapper);
+socialMediaSection.appendChild(socialMediaWrapper);
+main.appendChild(socialMediaSection);
+
+// Skapa och append `section` för top5-10
+const top510Section = document.createElement('section');
+top510Section.id = 'top5-10';
+
+const top57Div = document.createElement('div');
+top57Div.id = 'top5-7';
+
+for (let i = 5; i <= 7; i++) {
+    const img = document.createElement('img');
+    img.src = '';
+    img.alt = 'Film';
+    img.id = `top${i}`;
+    img.classList.add('film-img');
+    top57Div.appendChild(img);
+}
+
+const top810Div = document.createElement('div');
+top810Div.id = 'top8-10';
+
+for (let i = 8; i <= 10; i++) {
+    const img = document.createElement('img');
+    img.src = '';
+    img.alt = 'Film';
+    img.id = `top${i}`;
+    img.classList.add('film-img');
+    top810Div.appendChild(img);
+}
+
+// Lägg till i top5-10 section
+top510Section.appendChild(top57Div);
+top510Section.appendChild(top810Div);
+main.appendChild(top510Section);
+}
 
 let startpageTop10 = []; // Array för att spara topp 10 filmer
 
@@ -78,10 +169,6 @@ function updateImages() {
 
 // Kör funktionen för att hämta filmer
 getFilmsTop10();
-
-// TODO MODAL för att visa mer info om varje film från
-//? kan jag göra den så att man hämtar id i klicket, och sen hämtar info. Så det går att använda samma modal på fler sidor.
-//! Måste göra modalen med innerHTML
 
 // Funktion för att visa information i modal
 function showMovieInfo(film) {
