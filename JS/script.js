@@ -1,8 +1,40 @@
-document.addEventListener('DOMContentLoaded', showStartPageMain);
+document.addEventListener('DOMContentLoaded', () => {
+    showStartPageMain();
+    getFilmsTop10();
+    best200ever();
+});
+
+const main = document.getElementById('main');
+document.querySelector('nav').addEventListener('click', (event) => {
+    // Kontrollera om användaren klickade på en länk
+    if (event.target.tagName === 'A') {
+        event.preventDefault(); // Förhindra standard beteende (sidladdning)
+        
+        const href = event.target.getAttribute('href');
+        handleNavigation(href);
+    }
+});
+
+function handleNavigation(href) {
+    switch (href) {
+        case "#start":
+            console.log("Start-sidan laddas...");
+            // Kör kod för att ladda startsidan
+            break;
+        case "#200best":
+            showBest200() 
+            break;
+        case "#om":
+            console.log("Om sidan visas...");
+            // Kör kod för att visa information om sidan
+            break;
+        default:
+            console.error("Okänd navigeringslänk");
+    }
+}
+
 
 function showStartPageMain () {
-// Hämta main-elementet från DOM
-const main = document.getElementById('main');
 
 // Skapa och append `section` för top-4
 const top4Section = document.createElement('section');
@@ -119,6 +151,7 @@ main.appendChild(top510Section);
 }
 
 let startpageTop10 = []; // Array för att spara topp 10 filmer
+let best200Movies = [];
 
 // Funktion för att hämta filmer och lägga dem i startpageTop10
 async function getFilmsTop10() {
@@ -128,13 +161,38 @@ async function getFilmsTop10() {
 
         // Hämta endast de 10 första filmerna
         startpageTop10 = data.results.slice(0, 10);
-        console.log(startpageTop10)
+        console.log("startpageTop10: ", startpageTop10)
         
         updateImages();
     } catch (error) {
         console.error('Fel vid hämtning av filmer:', error);
     }
 }
+
+async function best200ever() {
+    try {
+        // Skapa en array med sidor att hämta (1 till 10)
+        const pages = Array.from({ length: 10 }, (_, i) => i + 1);
+
+        // Map varje sida till ett fetch-anrop
+        const fetchPromises = pages.map(page => 
+            fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&include_adult=false&include_video=false&language=en-US&sort_by=vote_average.desc&without_genres=99&vote_count.gte=200&page=${page}`)
+                .then(response => response.json()) // Omvandla varje fetch-resultat till JSON
+        );
+
+        // Kör alla anrop parallellt med Promise.all
+        const results = await Promise.all(fetchPromises);
+
+        // Extrahera och kombinera alla filmer från varje sida
+         best200Movies = results.flatMap(data => data.results);
+
+        console.log("best200Movies:", best200Movies);
+        return best200Movies; // Returnera om du vill använda resultatet vidare
+    } catch (error) {
+        console.error('Fel vid hämtning av filmer:', error);
+    }
+}
+
 
 // Funktion för att uppdatera bilderna
 function updateImages() {
@@ -167,9 +225,6 @@ function updateImages() {
     }
 }
 
-// Kör funktionen för att hämta filmer
-getFilmsTop10();
-
 // Funktion för att visa information i modal
 function showMovieInfo(film) {
     // Hämta modal-elementet
@@ -200,3 +255,35 @@ function showMovieInfo(film) {
     }, { once: true }); // Se till att eventlisten tas bort efter en gång
 }
 
+function showBest200() {
+    main.innerHTML = ""; // Töm main innan ny rendering
+    const sectionB200 = document.createElement('section');
+    sectionB200.id = "b200";
+
+    for (let i = 0; i < best200Movies.length; i++) {
+        const film = best200Movies[i];
+        
+        const container = document.createElement('div');
+        container.className = "b200-container";
+        container.addEventListener('click', () => showMovieInfo(film));
+
+        const title = document.createElement('h5');
+        title.textContent = `${i + 1} ${film.title}`;
+
+        const img = document.createElement('img');
+        img.src = `https://image.tmdb.org/t/p/w300${film.poster_path}`;
+        img.alt = film.title;
+
+        const hoverText = document.createElement('div');
+        hoverText.className = "b200-hovertext";
+        hoverText.textContent = "Klicka för info";
+
+        container.appendChild(title);
+        container.appendChild(img);
+        container.appendChild(hoverText);
+
+        sectionB200.appendChild(container);
+    }
+
+    main.appendChild(sectionB200);
+}

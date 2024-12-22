@@ -1,0 +1,50 @@
+#b200 {
+  max-width: 1440px;
+  margin: auto;
+}
+
+.b200-container {
+  position: relative;
+  display: inline-block;
+  height: 210px;
+  width: 120px;
+  border: 1px solid black;
+  margin: 0 20px 20px 0;
+  transition: box-shadow 0.3s ease, transform 0.3s ease; 
+}
+
+.b200-container h5 {
+  margin: 0;
+  height: 30px;
+}
+
+.b200-container img {
+  width: 100%;
+}
+
+.b200-hovertext {
+  position: absolute;
+  bottom: 0; /* Position längst ner på bilden */
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7); /* Halvtransparent svart bakgrund */
+  color: white;
+  text-align: center;
+  padding: 10px;
+  opacity: 0; /* Dölj texten som standard */
+  transition: opacity 0.3s ease; /* Smidig övergång */
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 18px;
+}
+
+.b200-container:hover {
+  transform: translateY(-5px); /* Flyttar elementet uppåt för "lyfteffekt" */
+  box-shadow:  0 15px 25px rgba(0, 0, 0, 0.3), /* Stor suddig skugga nedåt */
+               0 5px 10px rgba(0, 0, 0, 0.2); 
+  cursor: pointer;
+  
+}
+
+.b200-container:hover .b200-hovertext {
+  opacity: 1;
+}
