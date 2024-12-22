@@ -4,6 +4,25 @@ document.addEventListener('DOMContentLoaded', () => {
     best200ever();
 });
 
+const colors = ['#ffffff','#ffffff','#FC6719', '#6BCABA', '#69B3E7', '#ffffff', '#FF5572', '#FFCB14', '#ffffff', '#ffffff'];
+const randomColors = Array.from({ length: 10 }, () => colors[Math.floor(Math.random() * colors.length)]);
+
+function updateBackgroundColors() {
+    // Slumpa 3 färger för början och 3 för animationen
+    const randomColors = Array.from({ length: 6 }, () => colors[Math.floor(Math.random() * colors.length)]);
+  
+    // Uppdatera CSS-variablerna med de slumpmässiga färgerna
+    document.documentElement.style.setProperty('--color1', randomColors[0]);
+    document.documentElement.style.setProperty('--color2', randomColors[1]);
+    document.documentElement.style.setProperty('--color3', randomColors[2]);
+    document.documentElement.style.setProperty('--color4', randomColors[3]);
+    document.documentElement.style.setProperty('--color5', randomColors[4]);
+    document.documentElement.style.setProperty('--color6', randomColors[5]);
+  }
+  
+  // Kör funktionen för att uppdatera bakgrundsfärgerna
+  updateBackgroundColors();
+
 const main = document.getElementById('main');
 document.querySelector('nav').addEventListener('click', (event) => {
     // Kontrollera om användaren klickade på en länk
@@ -267,6 +286,10 @@ function showBest200() {
         container.className = "b200-container";
         container.addEventListener('click', () => showMovieInfo(film));
 
+        // Slumpa en bakgrundsfärg från listan
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        container.style.backgroundColor = randomColor; // Tilldela den slumpmässiga färgen
+
         const title = document.createElement('h5');
         title.textContent = `${i + 1} ${film.title}`;
 
@@ -287,3 +310,4 @@ function showBest200() {
 
     main.appendChild(sectionB200);
 }
+

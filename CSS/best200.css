@@ -6,10 +6,10 @@
 .b200-container {
   position: relative;
   display: inline-block;
-  height: 210px;
-  width: 120px;
-  border: 1px solid black;
-  margin: 0 20px 20px 0;
+  height: 230px;
+    width: 140px;
+  /* border: 1px solid black; */
+  margin: 0 35px 35px 0;
   transition: box-shadow 0.3s ease, transform 0.3s ease; 
 }
 

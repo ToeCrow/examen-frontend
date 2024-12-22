@@ -131,6 +131,21 @@ nav a:hover {
 /* MAIN */
 main {
   padding: 50px 0;
+  background: linear-gradient(to top, var(--color1), var(--color2), var(--color3));
+  animation: backgroundAnimation 10s infinite alternate;
+  min-height: 100vh;
+}
+
+@keyframes backgroundAnimation {
+  0% {
+    background: linear-gradient(to top, var(--color1), var(--color2), var(--color3));
+  }
+  50% {
+    background: linear-gradient(to top, var(--color4), var(--color5), var(--color6));
+  }
+  100% {
+    background: linear-gradient(to top, var(--color1), var(--color2), var(--color3));
+  }
 }
 
 /* Styling för #top-4 */
