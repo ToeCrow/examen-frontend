@@ -108,24 +108,3 @@
   transform: translate(-50%, -50%) scale(1.2); /* Liten förstoring av hjärtikonen vid aktivt tillstånd */
   transition: color 0.3s ease, transform 0.3s ease; /* Smidig övergång */
 }
-
-/* Tooltip stil */
-.tooltip {
-  position: absolute;
-  background-color: #333;
-  color: #FF5572;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  white-space: nowrap;
-  z-index: 10;
-  visibility: hidden; /* Gör den osynlig tills den ska visas */
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-/* Tooltip syns */
-.tooltip.show {
-  visibility: visible;
-  opacity: 1;
-}
