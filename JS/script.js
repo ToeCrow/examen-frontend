@@ -316,14 +316,29 @@ function showBest200() {
         const filteredMovies = best200Movies.filter(film => 
             film.genre_ids.includes(genreId)
         );
+    
+        const genreName = genre.find(g => g.id === genreId)?.name || "Okänd";
+        categoryInfo.textContent = `Kategori: ${genreName} - ${filteredMovies.length} filmer hittades.`;
+    
         displayMovies(filteredMovies);
     }
+    
+
+    const categoryInfo = document.createElement('p');
+    categoryInfo.id = "category-info";
+    categoryInfo.textContent = "Välj en kategori för att filtrera filmer.";
+    sectionButtons.appendChild(categoryInfo);
+
 
     const showAllButton = document.createElement('button');
     showAllButton.innerText = "Visa Alla";
     showAllButton.className = "filterButtons";
-    showAllButton.addEventListener('click', () => displayMovies(best200Movies));
+    showAllButton.addEventListener('click', () => {
+    categoryInfo.textContent = "Visar alla 200 bästa filmer.";
+    displayMovies(best200Movies);
+    });
     sectionButtons.appendChild(showAllButton);
+
 
 
     // Rendera knappar för varje genre
