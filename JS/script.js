@@ -169,6 +169,7 @@ main.appendChild(top510Section);
 let startpageTop10 = []; // Array för att spara topp 10 filmer
 let best200Movies = [];  // Array för de 200 bästa filmerna
 let genre = [];          // Array för filmgenrer
+let favorite = [];
 
 // Funktion för att hämta filmgenrer
 async function getGenres() {
@@ -286,6 +287,9 @@ function showMovieInfo(film) {
                 <h3>${film.title}</h3>
                 <p id="movie-info-text">${film.overview || "Ingen beskrivning tillgänglig."}</p>
                 <p id="movie-info-date">Releasedate: ${film.release_date || "N/A"}</p>
+                <div id="favorite-button">
+                    <i class="fa-regular fa-heart" id="favorite-toggle"></i>
+                </div>
                 <p id="modal-info">Klicka igen för att stänga</p>
             </div>
             <div id="movie-poster">
@@ -293,6 +297,24 @@ function showMovieInfo(film) {
             </div>
         </div>
     `;
+
+    const favoriteButton = document.getElementById('favorite-button');
+    const favoriteToggle = document.getElementById('favorite-toggle');
+
+    // Lägg till klicklyssnare för att toggla favorit-status
+    favoriteButton.addEventListener('click', (event) => {
+        event.stopImmediatePropagation();
+        // Toggla mellan solid och regular hjärta
+        if (favoriteToggle.classList.contains('fa-regular')) {
+            favoriteToggle.classList.remove('fa-regular');
+            favoriteToggle.classList.add('fa-solid');
+            favoriteButton.classList.add('active'); // Lägg till active-state
+        } else {
+            favoriteToggle.classList.remove('fa-solid');
+            favoriteToggle.classList.add('fa-regular');
+            favoriteButton.classList.remove('active'); // Ta bort active-state
+        }
+    });
 
     // Visa modalen
     modal.classList.remove('hidden');
@@ -303,6 +325,7 @@ function showMovieInfo(film) {
         modal.innerHTML = ''; // Rensa innehållet för att förhindra duplicering
     }, { once: true }); // Se till att eventlisten tas bort efter en gång
 }
+
 
 function showBest200() {
     main.innerHTML = ""; // Töm main innan ny rendering

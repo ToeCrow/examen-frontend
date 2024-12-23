@@ -72,3 +72,60 @@
   visibility: visible;
   opacity: 1;
 }
+
+/* Vita hjärtat (bakgrund) */
+#favorite-button {
+  width: 48px; /* 32px + lite extra padding */
+  height: 48px;
+  color: #ffffff; /* Vit färg */
+  border-radius: 50%; /* Rund knapp */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* Positionera knappen relativt */
+  cursor: pointer;
+}
+
+/* Hover-effekt för knappen */
+#favorite-button:hover {
+  transform: scale(1.1); /* Gör knappen större vid hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Öka skuggan */
+}
+
+/* Rosa hjärtat (innehåll) */
+#favorite-toggle {
+  font-size: 24px; /* Storlek på rosa hjärtat */
+  color: #FF5572; /* Rosa färg */
+  position: absolute; /* Läggs ovanpå knappen */
+  top: 50%; /* Centrerar vertikalt */
+  left: 50%; /* Centrerar horisontellt */
+  transform: translate(-50%, -50%); /* Justera för korrekt centrering */
+}
+
+/* Active-tillståndet (solid hjärta) */
+#favorite-button.active #favorite-toggle {
+  color: #FF5572; /* Samma rosa färg för solid hjärta */
+  transform: translate(-50%, -50%) scale(1.2); /* Liten förstoring av hjärtikonen vid aktivt tillstånd */
+  transition: color 0.3s ease, transform 0.3s ease; /* Smidig övergång */
+}
+
+/* Tooltip stil */
+.tooltip {
+  position: absolute;
+  background-color: #333;
+  color: #FF5572;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+  visibility: hidden; /* Gör den osynlig tills den ska visas */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Tooltip syns */
+.tooltip.show {
+  visibility: visible;
+  opacity: 1;
+}
