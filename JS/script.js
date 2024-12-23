@@ -44,11 +44,10 @@ function handleNavigation(href) {
             // Kör kod för att ladda startsidan
             break;
         case "#200best":
-            showBest200() 
+            showBest200();
             break;
-        case "#om":
-            console.log("Om sidan visas...");
-            // Kör kod för att visa information om sidan
+        case "#favorites":
+            showFavorites();
             break;
         default:
             console.error("Okänd navigeringslänk");
@@ -348,6 +347,7 @@ function toggleFavorite(film) {
         favoriteToggle.classList.add('fa-regular');
         document.getElementById('favorite-button').classList.remove('active');
     }
+    console.log(favorite)
 
     // Uppdatera localStorage
     localStorage.setItem('favorites', JSON.stringify(favorite));
@@ -484,4 +484,95 @@ function handleApiError(statusCode) {
         default:
             console.error("Okänd felkod: Något gick fel, statuskod:", statusCode);
     }
+}
+
+function showFavorites() {
+    main.innerHTML = ""; // Töm main innan ny rendering
+    const sectionButtons = document.createElement('section');
+    sectionButtons.id = "filterByGenre";
+    const favorites = document.createElement('section');
+    favorites.id = "favorites";
+
+    // Funktion för att filtrera filmer
+    function filterMoviesByGenre(genreId) {
+        const filteredMovies = favorite.filter(film => 
+            film.genre_ids.includes(genreId)
+        );
+    
+        const genreName = genre.find(g => g.id === genreId)?.name || "Okänd";
+        categoryInfo.textContent = `Kategori: ${genreName} - ${filteredMovies.length} filmer hittades.`;
+    
+        displayMovies(filteredMovies);
+    }
+    
+
+    const categoryInfo = document.createElement('p');
+    categoryInfo.id = "category-info";
+    categoryInfo.textContent = `Visar alla dina favoriter, ${favorite.length}st. Välj en kategori för att filtrera filmer.`;
+    sectionButtons.appendChild(categoryInfo);
+
+
+    const showAllButton = document.createElement('button');
+    showAllButton.innerText = "Visa Alla";
+    showAllButton.className = "filterButtons";
+    showAllButton.addEventListener('click', () => {
+    categoryInfo.textContent = `Visar alla dina favoriter, ${favorite.length}st.`;
+    displayMovies(favorite);
+    });
+    sectionButtons.appendChild(showAllButton);
+
+
+
+    // Rendera knappar för varje genre
+    for (let i = 0; i < genre.length; i++) {
+        const label = genre[i];
+
+        const button = document.createElement('button');
+        button.id = `button-${label.name}`;
+        button.innerText = `${label.name}`;
+        button.className = "filterButtons";
+        button.addEventListener('click', () => filterMoviesByGenre(label.id));
+
+        sectionButtons.appendChild(button);
+    }
+
+    // Funktion för att rendera filmer
+    function displayMovies(movies) {
+        favorites.innerHTML = ""; // Töm sektionen innan rendering
+
+        for (let i = 0; i < movies.length; i++) {
+            const film = movies[i];
+            
+            const container = document.createElement('div');
+            container.className = "b200-container";
+            container.addEventListener('click', () => showMovieInfo(film));
+
+            // Slumpa en bakgrundsfärg från listan
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            container.style.backgroundColor = randomColor; // Tilldela den slumpmässiga färgen
+
+            const title = document.createElement('h5');
+            title.textContent = `${i + 1} ${film.title}`;
+
+            const img = document.createElement('img');
+            img.src = `https://image.tmdb.org/t/p/w300${film.poster_path}`;
+            img.alt = film.title;
+
+            const hoverText = document.createElement('div');
+            hoverText.className = "b200-hovertext";
+            hoverText.textContent = "Klicka för info";
+
+            container.appendChild(title);
+            container.appendChild(img);
+            container.appendChild(hoverText);
+
+            favorites.appendChild(container);
+        }
+    }
+
+    // Visa alla filmer från början
+    displayMovies(favorite);
+
+    main.appendChild(sectionButtons);
+    main.appendChild(favorites);
 }

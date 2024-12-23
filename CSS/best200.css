@@ -1,4 +1,8 @@
-#b200 {
+#b200  {
+  max-width: 1440px;
+  margin: auto;
+}
+#favorites {
   max-width: 1440px;
   margin: auto;
 }
