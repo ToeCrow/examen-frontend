@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    const storedFavorites = localStorage.getItem('favorites');
+    if (storedFavorites) {
+        favorite = JSON.parse(storedFavorites);
+    }
+
     showStartPageMain();
     loadData();
 });
@@ -301,19 +307,18 @@ function showMovieInfo(film) {
     const favoriteButton = document.getElementById('favorite-button');
     const favoriteToggle = document.getElementById('favorite-toggle');
 
+    // Kontrollera om filmen redan är favorit
+    const isFavorite = favorite.some(f => f.id === film.id);
+    if (isFavorite) {
+        favoriteToggle.classList.remove('fa-regular');
+        favoriteToggle.classList.add('fa-solid');
+        favoriteButton.classList.add('active'); // Lägg till active-state
+    }
+
     // Lägg till klicklyssnare för att toggla favorit-status
     favoriteButton.addEventListener('click', (event) => {
         event.stopImmediatePropagation();
-        // Toggla mellan solid och regular hjärta
-        if (favoriteToggle.classList.contains('fa-regular')) {
-            favoriteToggle.classList.remove('fa-regular');
-            favoriteToggle.classList.add('fa-solid');
-            favoriteButton.classList.add('active'); // Lägg till active-state
-        } else {
-            favoriteToggle.classList.remove('fa-solid');
-            favoriteToggle.classList.add('fa-regular');
-            favoriteButton.classList.remove('active'); // Ta bort active-state
-        }
+        toggleFavorite(film);
     });
 
     // Visa modalen
@@ -324,6 +329,28 @@ function showMovieInfo(film) {
         modal.classList.add('hidden');
         modal.innerHTML = ''; // Rensa innehållet för att förhindra duplicering
     }, { once: true }); // Se till att eventlisten tas bort efter en gång
+}
+
+function toggleFavorite(film) {
+    const index = favorite.findIndex(f => f.id === film.id);
+    const favoriteToggle = document.getElementById('favorite-toggle');
+
+    if (index === -1) {
+        // Lägg till filmen i favoriter
+        favorite.push(film);
+        favoriteToggle.classList.remove('fa-regular');
+        favoriteToggle.classList.add('fa-solid');
+        document.getElementById('favorite-button').classList.add('active');
+    } else {
+        // Ta bort filmen från favoriter
+        favorite.splice(index, 1);
+        favoriteToggle.classList.remove('fa-solid');
+        favoriteToggle.classList.add('fa-regular');
+        document.getElementById('favorite-button').classList.remove('active');
+    }
+
+    // Uppdatera localStorage
+    localStorage.setItem('favorites', JSON.stringify(favorite));
 }
 
 
