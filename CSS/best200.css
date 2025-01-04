@@ -34,7 +34,8 @@
 
 .b200-container img {
   width: 100%;
-  bottom : 0;
+  bottom : -4px;
+  position: relative;
 }
 
 .b200-hovertext {
