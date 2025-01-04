@@ -19,6 +19,14 @@
 
 #movie-info-text{
   margin: 0;
+  height: auto;
+  width: 300px;
+}
+
+#movie-poster {
+  height: auto;
+  width: 300px;
+  margin: 50px;
 }
 
 #movie-info-date{
@@ -31,10 +39,6 @@
   margin-top: auto;
   margin-bottom: 0;
   text-align: center;
-}
-
-#movie-poster {
-  margin: 50px;
 }
 
 /* Modal grundläggande styling */
@@ -55,14 +59,11 @@
 }
 
 #modal-wrap {
-  max-width: 750px;
   max-height: 550px;
   border: 1px solid black;
   display: flex;
   flex-direction: row;
-  margin: 50px auto;
   background-color: white;
-  margin: 20px;
 }
 
 #modal.hidden {
@@ -109,4 +110,51 @@
   color: #FF5572; /* Samma rosa färg för solid hjärta */
   transform: translate(-50%, -50%) scale(1.2); /* Liten förstoring av hjärtikonen vid aktivt tillstånd */
   transition: color 0.3s ease, transform 0.3s ease; /* Smidig övergång */
+}
+
+@media (max-width: 768px) {
+  #modal-wrap {
+    width: 90%; /* Exempel: Dynamisk bredd */
+    height: auto; /* Exempel: Dynamisk höjd */
+  }
+
+  #movie-info {
+    max-width: 40%;
+  }
+
+  #movie-poster img {
+    width: 100%; /* Exempel: Dynamisk bredd */
+    height: auto; /* Exempel: Dynamisk nåjd */
+  }
+
+  #movie-info-text{
+    margin: 0;
+    height: auto;
+    width: auto;
+  }
+
+  #movie-info h3 {
+    font-size: 24px; /* Exempel: Dynamisk textstorlek */
+  }
+
+  #movie-info p {
+    font-size: 12px; /* Exempel: Dynamisk textstorlek */
+  }
+}
+
+@media (max-width: 600px) {
+  /* #modal-wrap {
+    flex-direction: column-reverse;
+  } */
+
+  #movie-info {
+    max-width: 100%;
+    margin: 20px 50px;
+  }
+
+  #movie-poster {
+    display: none;
+  }
+
+
 }
