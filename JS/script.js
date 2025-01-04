@@ -374,7 +374,7 @@ function showBest200() {
     }
     
 
-    const categoryInfo = document.createElement('p');
+    const categoryInfo = document.createElement('h1');
     categoryInfo.id = "category-info";
     categoryInfo.textContent = "Välj en kategori för att filtrera filmer.";
     sectionButtons.appendChild(categoryInfo);
@@ -420,7 +420,7 @@ function showBest200() {
             container.style.backgroundColor = randomColor; // Tilldela den slumpmässiga färgen
 
             const title = document.createElement('h5');
-            title.textContent = `${i + 1} ${film.title}`;
+            title.textContent = `${film.title}`;
 
             const img = document.createElement('img');
             img.src = `https://image.tmdb.org/t/p/w300${film.poster_path}`;
@@ -506,7 +506,7 @@ function showFavorites() {
     }
     
 
-    const categoryInfo = document.createElement('p');
+    const categoryInfo = document.createElement('h1');
     categoryInfo.id = "category-info";
     categoryInfo.textContent = `Visar alla dina favoriter, ${favorite.length}st. Välj en kategori för att filtrera filmer.`;
     sectionButtons.appendChild(categoryInfo);

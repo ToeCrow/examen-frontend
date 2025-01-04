@@ -102,6 +102,9 @@ nav a:hover {
   color: #FFCB14;
 }
 
+#menu {
+  display: none;
+}
 /* Styling för hamburger-menyn */
 .hamburger-menu {
   width: 30px; /* Bredd på hela menyn */
@@ -130,7 +133,7 @@ nav a:hover {
 
 /* MAIN */
 main {
-  padding: 50px 0;
+  padding: 50px 0 0 0;
   background: linear-gradient(to top, var(--color1), var(--color2), var(--color3));
   animation: backgroundAnimation 10s infinite alternate;
   min-height: 100vh;
@@ -164,7 +167,7 @@ main {
   box-sizing: border-box; /* Säkerställer att padding inte ökar storleken */
 }
 
-h2 {
+h1, h2 {
   font-size: 55px;
   font-family: 'Ballo 2', sans-serif;
   text-align: center;
@@ -184,6 +187,10 @@ h2 {
 #top1 {
   grid-area: top1;
   width: 100%; /* Anpassa bilden till utrymmet */
+  height: auto;
+}
+
+#top2-4 .image-container {
   height: auto;
 }
 
@@ -344,6 +351,7 @@ h2 {
 footer {
   background-color: #000;
   padding: 50px 0 0 0;
+  height: auto;
 }
 
 #footer-logo {
@@ -455,3 +463,60 @@ footer a:hover {
   font-size: 18px;
   font-weight: 500;
 }
+
+
+@media (max-width: 1024px) {
+header {
+  height: auto;
+  padding: 20px 20px 0 20px;
+}
+
+h2 {
+  font-size: 32px;
+}
+
+  #header-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #logo {
+    margin-bottom: 20px;
+  }
+  
+  #top-4 {
+    grid-template-areas: 
+        "top4-title"
+        "top1"
+        "top2-4";
+    grid-template-columns: 1fr; /* Fördelar bredden i en kolumn */
+    grid-template-rows: auto auto auto; /* Definierar tre rader */
+  }
+  
+  #top4-title {
+    max-width: 100%;
+  }
+  
+ nav {
+  padding: 0;
+}
+
+#animation img {
+  width: 30%;
+}
+
+footer {
+  padding: 50px 0 0 0;  
+}
+
+#footer-links {
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.footer-lists {
+  width: 45%; /* Gör kolumnerna två i bredd */
+  margin-bottom: 20px;
+}
+}
+
