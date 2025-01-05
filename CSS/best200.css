@@ -69,7 +69,6 @@
 #filterByGenre {
   max-width:  1440px;
   margin: 0 auto 20px auto;
-  border: 1px solid black;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -88,13 +87,12 @@
 @media (max-width: 1440px) { 
   #filterByGenre {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: nowrap; /* Disable wrapping to keep items in one row */
     overflow-x: auto; /* Enable horizontal scrolling */
     white-space: nowrap; /* Ensure no line breaks */
     max-width: 1440px; /* Keep the container centered */
     margin: 20px auto;
-    border: 1px solid black;
   }
   
   .filterButtons {
