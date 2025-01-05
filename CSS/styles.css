@@ -473,8 +473,8 @@ footer a:hover {
 
 @media (max-width: 1252px){
   nav {
-    position: fixed;
-    justify-content: space-between;
+    position: absolute;
+    margin-left: clamp(36px, 19%, 90px);
   }
 }
 
