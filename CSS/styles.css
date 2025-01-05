@@ -501,7 +501,7 @@ h1, h2 {
   nav {
     position: static; /* Gör så att navigationen följer flödet */
     transform: none; /* Ta bort centreringsjusteringar */
-    
+    margin-left: 0;
   }
   
   #logo {

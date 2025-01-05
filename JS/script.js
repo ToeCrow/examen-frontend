@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadData();
 });
 
-const colors = ['#ffffff','#ffffff','#FC6719', '#6BCABA', '#69B3E7', '#ffffff', '#FF5572', '#FFCB14', '#ffffff', '#ffffff'];
+const colors = ['#ffffff','#ffffff', '#6BCABA', '#69B3E7', '#ffffff', '#FF5572', ];
 const randomColors = Array.from({ length: 10 }, () => colors[Math.floor(Math.random() * colors.length)]);
 
 function updateBackgroundColors() {

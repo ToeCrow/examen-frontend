@@ -8,12 +8,15 @@
 #b200  {
   max-width: 1440px;
   margin: 20px auto;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'ballo 2', sans-serif;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 #favorites {
   max-width: 1440px;
   margin: auto;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'ballo 2', sans-serif;
 }
 
 .b200-container {
@@ -22,8 +25,13 @@
   height: auto;
   width: 14%;
   margin: 0 17px 35px 17px;
-  transition: box-shadow 0.3s ease, transform 0.3s ease; 
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); /* Skapar en subtil skugga */
+  transition: transform 0.3s, box-shadow 0.3s; 
+  min-width: 180px;
+  border-radius: 8px;
+  border: .5px solid #5B5B5B;
 }
+
 
 .b200-container h5 {
   margin: 0;
@@ -56,8 +64,8 @@
 
 .b200-container:hover {
   transform: translateY(-5px); /* Flyttar elementet uppåt för "lyfteffekt" */
-  box-shadow:  0 15px 25px rgba(0, 0, 0, 0.3), /* Stor suddig skugga nedåt */
-               0 5px 10px rgba(0, 0, 0, 0.2); 
+  box-shadow:  0 18px 25px rgba(0, 0, 0, 0.4), /* Stor suddig skugga nedåt */
+               0 8px 12px rgba(0, 0, 0, 0.3); 
   cursor: pointer;
   
 }
@@ -100,5 +108,15 @@
     width: 120px;
     height: 32px;
     margin: 10px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .b200-container {
+    min-width: 150px;
+  }
+
+  .b200-container h5 {
+    font-size: small;
   }
 }
