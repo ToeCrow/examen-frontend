@@ -40,8 +40,8 @@ document.querySelector('nav').addEventListener('click', (event) => {
 function handleNavigation(href) {
     switch (href) {
         case "#start":
-            console.log("Start-sidan laddas...");
-            // Kör kod för att ladda startsidan
+            showStartPageMain ();
+            updateImages();
             break;
         case "#200best":
             showBest200();
@@ -57,6 +57,7 @@ function handleNavigation(href) {
 
 function showStartPageMain () {
 
+    main.innerHTML = ""; // Töm main innan ny rendering
 // Skapa och append `section` för top-4
 const top4Section = document.createElement('section');
 top4Section.id = 'top-4';
@@ -80,7 +81,7 @@ for (let i = 2; i <= 4; i++) {
     img.id = `top${i}`;
     top24Div.appendChild(img);
 }
-
+0
 // Lägg till i top-4 section
 top4Section.appendChild(top4Title);
 top4Section.appendChild(top1Img);
