@@ -358,6 +358,7 @@ function showBest200() {
     main.innerHTML = ""; // Töm main innan ny rendering
     const sectionButtons = document.createElement('section');
     sectionButtons.id = "filterByGenre";
+    sectionButtons.classList.add('scrollmenu');
     const sectionB200 = document.createElement('section');
     sectionB200.id = "b200";
 
@@ -377,7 +378,7 @@ function showBest200() {
     const categoryInfo = document.createElement('h1');
     categoryInfo.id = "category-info";
     categoryInfo.textContent = "Välj en kategori för att filtrera filmer.";
-    sectionButtons.appendChild(categoryInfo);
+    main.appendChild(categoryInfo);
 
 
     const showAllButton = document.createElement('button');
@@ -490,6 +491,7 @@ function showFavorites() {
     main.innerHTML = ""; // Töm main innan ny rendering
     const sectionButtons = document.createElement('section');
     sectionButtons.id = "filterByGenre";
+    sectionButtons.classList.add('scrollmenu');
     const favorites = document.createElement('section');
     favorites.id = "favorites";
 
@@ -509,7 +511,7 @@ function showFavorites() {
     const categoryInfo = document.createElement('h1');
     categoryInfo.id = "category-info";
     categoryInfo.textContent = `Visar alla dina favoriter, ${favorite.length}st. Välj en kategori för att filtrera filmer.`;
-    sectionButtons.appendChild(categoryInfo);
+    main.appendChild(categoryInfo);
 
 
     const showAllButton = document.createElement('button');
