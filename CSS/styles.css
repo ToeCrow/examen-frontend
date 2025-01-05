@@ -649,3 +649,38 @@ footer ul {
   }
 }
 }
+
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Transparent svart bakgrund */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Högre än andra element */
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.loader {
+  border: 4px solid transparent;
+  border-top: 4px solid #FFCB14; /* Färg på laddningscirkeln */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+/* Animation för att snurra cirkeln */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#content {
+  display: none; /* Dölja innehållet tills async är klar */
+}

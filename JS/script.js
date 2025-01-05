@@ -4,10 +4,37 @@ document.addEventListener('DOMContentLoaded', () => {
     if (storedFavorites) {
         favorite = JSON.parse(storedFavorites);
     }
-
-    showStartPageMain();
+    
     loadData();
+    showStartPageMain();
 });
+
+async function loadData() {
+    // Visa loading-skärmen innan async funktioner körs
+    showLoading();
+
+    // Vänta på att alla data har hämtats
+    await Promise.all([
+        getFilmsTop10(),
+        best200ever(),
+        getGenres() // Lägger till hämting av genrer här
+    ]);
+
+    // När alla asynkrona operationer är klara, dölja loading-skärmen
+    hideLoading();
+}
+
+// Funktion för att visa loading-skärmen
+function showLoading() {
+    document.getElementById('loading-screen').style.display = 'flex';
+    document.getElementById('content').style.display = 'none';
+}
+
+// Funktion för att dölja loading-skärmen
+function hideLoading() {
+    document.getElementById('loading-screen').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+}
 
 const colors = ['#ffffff','#ffffff', '#6BCABA', '#69B3E7', '#ffffff', '#FF5572', ];
 const randomColors = Array.from({ length: 10 }, () => colors[Math.floor(Math.random() * colors.length)]);
@@ -272,13 +299,13 @@ async function best200ever() {
 }
 
 // Anropa alla funktioner när sidan laddas
-async function loadData() {
-    await Promise.all([
-        getFilmsTop10(),
-        best200ever(),
-        getGenres() // Lägger till hämting av genrer här
-    ]);
-}
+// async function loadData() {
+//     await Promise.all([
+//         getFilmsTop10(),
+//         best200ever(),
+//         getGenres() // Lägger till hämting av genrer här
+//     ]);
+// }
 
 // Funktion för att visa information i modal
 function showMovieInfo(film) {
