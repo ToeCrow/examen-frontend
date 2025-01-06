@@ -507,6 +507,15 @@ h1, h2 {
   #logo {
     margin-bottom: 20px;
   }
+
+  #animation {
+    gap: 50px;
+    margin: 0 10px;
+  }
+
+  #animation img {
+    max-width: 20%;
+  }
   
   #top-4 {
     grid-template-areas: 
