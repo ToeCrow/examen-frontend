@@ -36,7 +36,7 @@ function hideLoading() {
     document.getElementById('content').style.display = 'block';
 }
 
-const colors = ['#ffffff','#ffffff', '#6BCABA', '#69B3E7', '#ffffff', '#FF5572', ];
+const colors = ['#ffffff',, '#6BCABA', '#69B3E7', '#ffffff' ];
 const randomColors = Array.from({ length: 10 }, () => colors[Math.floor(Math.random() * colors.length)]);
 
 function updateBackgroundColors() {
@@ -395,7 +395,7 @@ function showBest200() {
 
     const categoryInfo = document.createElement('h1');
     categoryInfo.id = "category-info";
-    categoryInfo.textContent = "Välj en kategori för att filtrera filmer.";
+    categoryInfo.textContent = "Visar alla 200 bästa filmer. Välj en kategori för att filtrera filmer.";
     main.appendChild(categoryInfo);
 
 
