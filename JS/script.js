@@ -257,7 +257,7 @@ async function getGenres() {
 // Funktion för att hämta filmer och lägga dem i startpageTop10
 async function getFilmsTop10() {
     try {
-        const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=true&page=1`;
+        const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&page=1`;
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -279,7 +279,7 @@ async function best200ever() {
     try {
         const pages = Array.from({ length: 10 }, (_, i) => i + 1);
         const fetchPromises = pages.map(page => {
-            const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&include_adult=false&include_video=false&language=en-US&sort_by=vote_average.desc&without_genres=99&vote_count.gte=200&page=${page}`;
+            const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&include_adult=false&language=en-US&sort_by=vote_average.desc&without_genres=99&vote_count.gte=200&page=${page}`;
             return fetch(url).then(response => {
                 if (!response.ok) {
                     handleApiError(response.status); // Anropa felhanteringsfunktionen om status är något annat än 200
@@ -297,15 +297,6 @@ async function best200ever() {
         console.error('Fel vid hämtning av filmer:', error);
     }
 }
-
-// Anropa alla funktioner när sidan laddas
-// async function loadData() {
-//     await Promise.all([
-//         getFilmsTop10(),
-//         best200ever(),
-//         getGenres() // Lägger till hämting av genrer här
-//     ]);
-// }
 
 // Funktion för att visa information i modal
 function showMovieInfo(film) {
