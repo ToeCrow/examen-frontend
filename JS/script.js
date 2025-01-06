@@ -468,40 +468,40 @@ function showBest200() {
 function handleApiError(statusCode) {
     switch (statusCode) {
         case 200:
-            console.log("Success: Data hämtades framgångsrikt.");
+            console.log("Allt gick bra! Dina data har hämtats framgångsrikt.");
             break;
         case 401:
-            console.error("Authentication failed: Du har inte behörighet att komma åt tjänsten eller ogiltig API-nyckel.");
+            console.error("Oj! Det verkar som att du inte är inloggad eller att din API-nyckel är ogiltig. Dubbelkolla och försök igen.");
             break;
         case 403:
-            console.error("Access Denied: Du har inte rätt att komma åt den här resursen.");
+            console.error("Tyvärr, du har inte behörighet att komma åt den här resursen. Kontrollera dina rättigheter eller kontakta support.");
             break;
         case 404:
-            console.error("Resource not found: Den begärda resursen kunde inte hittas.");
+            console.error("Vi hittade inte det du letade efter. Kontrollera att adressen eller resursen är korrekt.");
             break;
         case 405:
-            console.error("Method not allowed: Ogiltig metod för den här resursen.");
+            console.error("Metoden du försökte använda är inte tillåten för denna resurs. Kontrollera dokumentationen och försök igen.");
             break;
         case 422:
-            console.error("Invalid parameters: De skickade parametrarna är felaktiga.");
+            console.error("Något stämmer inte med de uppgifter du skickade in. Kontrollera och försök igen.");
             break;
         case 500:
-            console.error("Internal server error: Något gick fel på servern.");
+            console.error("Oj då! Något gick fel på servern. Försök igen senare, eller kontakta support om problemet kvarstår.");
             break;
         case 502:
-            console.error("Bad Gateway: Problem med att ansluta till backend-servern.");
+            console.error("Det verkar som att det är problem att ansluta till servern. Försök igen om en stund.");
             break;
         case 503:
-            console.error("Service Unavailable: Tjänsten är för närvarande otillgänglig.");
+            console.error("Tjänsten är tillfälligt otillgänglig. Vi arbetar på att lösa problemet, försök igen senare.");
             break;
         case 504:
-            console.error("Gateway Timeout: Begäran till backend-servern gick inte igenom.");
+            console.error("Din begäran tog för lång tid. Kanske är det hög belastning just nu. Försök igen senare.");
             break;
         case 429:
-            console.error("Too many requests: Din begäran överskrider den tillåtna gränsen.");
+            console.error("Oj, du har gjort för många förfrågningar på kort tid. Vänta lite och försök igen snart.");
             break;
         default:
-            console.error("Okänd felkod: Något gick fel, statuskod:", statusCode);
+            console.error("Något oväntat hände. Vi kunde inte hantera statuskoden:", statusCode);
     }
 }
 
