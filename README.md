@@ -5,7 +5,11 @@ För att köra den lokalt ladda ner repot till din dator. Öppna det sen med vsc
 
 Länk till Figma: https://www.figma.com/design/mCLi7j9tqmRK0WwARk5nlb/Examen-Frontend?node-id=0-1&t=UbnSy6SdFCutdera-1
 
-
+Jag har hanterat json-data med respons.json för att konvertera streamen till js-objekt.
+Varje async function har en fetch med async/await samt try/catch. Har en promise.all för att hämta all data på en gång och spara tid för användaren. 
+Det finns en "loading"-skärm, som gör att det syns för användaren om det tar lite tid att ladda.
+Har använt en semantisk uppbyggd html-struktur, det finns alt-text på bilder och bra kontrast för att kunna läsa enkelt.
+Sidan är responsiv på alla sidor och en mock finns i Figma för alla skärmar/sidor.
 
 I uppgiften har jag använt TMDB's api*: https://developer.themoviedb.org/docs/getting-started
 
