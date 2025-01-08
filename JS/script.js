@@ -9,6 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     showStartPageMain();
 });
 
+let startpageTop10 = []; // Array för att spara topp 10 filmer
+let best200Movies = [];  // Array för de 200 bästa filmerna
+let genre = [];          // Array för filmgenrer
+let favorite = [];       // Array for favoriter
+
 async function loadData() {
     // Visa loading-skärmen innan async funktioner körs
     showLoading();
@@ -24,6 +29,69 @@ async function loadData() {
     hideLoading();
 }
 
+// Funktion för att hämta filmgenrer
+async function getGenres() {
+    try {
+        const url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            handleApiError(response.status); // Anropa felhanteringsfunktionen om status är något annat än 200
+            return;
+        }
+
+        const data = await response.json();
+        genre = data.genres; // Spara filmgenrer i genre-arrayen
+        console.log("Genres:", genre);
+    } catch (error) {
+        console.error('Fel vid hämtning av genrer:', error);
+    }
+}
+
+// Funktion för att hämta filmer och lägga dem i startpageTop10
+async function getFilmsTop10() {
+    try {
+        const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&page=1`;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            handleApiError(response.status); // Anropa felhanteringsfunktionen om status är något annat än 200
+            return;
+        }
+
+        const data = await response.json();
+        startpageTop10 = data.results.slice(0, 10);
+        console.log("startpageTop10: ", startpageTop10);
+        updateImages();
+    } catch (error) {
+        console.error('Fel vid hämtning av filmer:', error);
+    }
+}
+
+// Funktion för att hämta de 200 bästa filmerna
+async function best200ever() {
+    try {
+        const pages = Array.from({ length: 10 }, (_, i) => i + 1);
+        const fetchPromises = pages.map(page => {
+            const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&include_adult=false&language=en-US&sort_by=vote_average.desc&without_genres=99&vote_count.gte=200&page=${page}`;
+            return fetch(url).then(response => {
+                if (!response.ok) {
+                    handleApiError(response.status); // Anropa felhanteringsfunktionen om status är något annat än 200
+                    throw new Error(`API request failed with status: ${response.status}`); // Stoppa vidare körning
+                }
+                return response.json(); // Annars, fortsätt med att hämta JSON
+            });
+        });
+
+        const results = await Promise.all(fetchPromises);
+        best200Movies = results.flatMap(data => data.results);
+        console.log("best200Movies:", best200Movies);
+        return best200Movies;
+    } catch (error) {
+        console.error('Fel vid hämtning av filmer:', error);
+    }
+}
+
 // Funktion för att visa loading-skärmen
 function showLoading() {
     document.getElementById('loading-screen').style.display = 'flex';
@@ -35,52 +103,6 @@ function hideLoading() {
     document.getElementById('loading-screen').style.display = 'none';
     document.getElementById('content').style.display = 'block';
 }
-
-const colors = ['#ffffff',, '#6BCABA', '#69B3E7', '#ffffff' ];
-const randomColors = Array.from({ length: 10 }, () => colors[Math.floor(Math.random() * colors.length)]);
-
-function updateBackgroundColors() {
-    // Slumpa 3 färger för början och 3 för animationen
-  
-    // Uppdatera CSS-variablerna med de slumpmässiga färgerna
-    document.documentElement.style.setProperty('--color1', randomColors[0]);
-    document.documentElement.style.setProperty('--color2', randomColors[1]);
-    document.documentElement.style.setProperty('--color3', randomColors[2]);
-    document.documentElement.style.setProperty('--color4', randomColors[3]);
-    document.documentElement.style.setProperty('--color5', randomColors[4]);
-    document.documentElement.style.setProperty('--color6', randomColors[5]);
-  }
-  
-  // Kör funktionen för att uppdatera bakgrundsfärgerna
-  updateBackgroundColors();
-
-const main = document.getElementById('main');
-document.querySelector('nav').addEventListener('click', (event) => {
-    if (event.target.tagName === 'A') {
-        event.preventDefault(); 
-        
-        const href = event.target.getAttribute('href');
-        handleNavigation(href);
-    }
-});
-
-function handleNavigation(href) {
-    switch (href) {
-        case "#start":
-            showStartPageMain ();
-            updateImages();
-            break;
-        case "#200best":
-            showBest200();
-            break;
-        case "#favorites":
-            showFavorites();
-            break;
-        default:
-            console.error("Okänd navigeringslänk");
-    }
-}
-
 
 function showStartPageMain () {
 
@@ -230,74 +252,6 @@ function updateImages() {
     }
 }
 
-let startpageTop10 = []; // Array för att spara topp 10 filmer
-let best200Movies = [];  // Array för de 200 bästa filmerna
-let genre = [];          // Array för filmgenrer
-let favorite = [];
-
-// Funktion för att hämta filmgenrer
-async function getGenres() {
-    try {
-        const url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`;
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            handleApiError(response.status); // Anropa felhanteringsfunktionen om status är något annat än 200
-            return;
-        }
-
-        const data = await response.json();
-        genre = data.genres; // Spara filmgenrer i genre-arrayen
-        console.log("Genres:", genre);
-    } catch (error) {
-        console.error('Fel vid hämtning av genrer:', error);
-    }
-}
-
-// Funktion för att hämta filmer och lägga dem i startpageTop10
-async function getFilmsTop10() {
-    try {
-        const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&page=1`;
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            handleApiError(response.status); // Anropa felhanteringsfunktionen om status är något annat än 200
-            return;
-        }
-
-        const data = await response.json();
-        startpageTop10 = data.results.slice(0, 10);
-        console.log("startpageTop10: ", startpageTop10);
-        updateImages();
-    } catch (error) {
-        console.error('Fel vid hämtning av filmer:', error);
-    }
-}
-
-// Funktion för att hämta de 200 bästa filmerna
-async function best200ever() {
-    try {
-        const pages = Array.from({ length: 10 }, (_, i) => i + 1);
-        const fetchPromises = pages.map(page => {
-            const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&include_adult=false&language=en-US&sort_by=vote_average.desc&without_genres=99&vote_count.gte=200&page=${page}`;
-            return fetch(url).then(response => {
-                if (!response.ok) {
-                    handleApiError(response.status); // Anropa felhanteringsfunktionen om status är något annat än 200
-                    throw new Error(`API request failed with status: ${response.status}`); // Stoppa vidare körning
-                }
-                return response.json(); // Annars, fortsätt med att hämta JSON
-            });
-        });
-
-        const results = await Promise.all(fetchPromises);
-        best200Movies = results.flatMap(data => data.results);
-        console.log("best200Movies:", best200Movies);
-        return best200Movies;
-    } catch (error) {
-        console.error('Fel vid hämtning av filmer:', error);
-    }
-}
-
 // Funktion för att visa information i modal
 function showMovieInfo(film) {
     // Hämta modal-elementet
@@ -348,29 +302,50 @@ function showMovieInfo(film) {
     }, { once: true }); // Se till att eventlisten tas bort efter en gång
 }
 
-function toggleFavorite(film) {
-    const index = favorite.findIndex(f => f.id === film.id);
-    const favoriteToggle = document.getElementById('favorite-toggle');
+const colors = ['#ffffff',, '#6BCABA', '#69B3E7', '#ffffff' ];
+const randomColors = Array.from({ length: 10 }, () => colors[Math.floor(Math.random() * colors.length)]);
 
-    if (index === -1) {
-        // Lägg till filmen i favoriter
-        favorite.push(film);
-        favoriteToggle.classList.remove('fa-regular');
-        favoriteToggle.classList.add('fa-solid');
-        document.getElementById('favorite-button').classList.add('active');
-    } else {
-        // Ta bort filmen från favoriter
-        favorite.splice(index, 1);
-        favoriteToggle.classList.remove('fa-solid');
-        favoriteToggle.classList.add('fa-regular');
-        document.getElementById('favorite-button').classList.remove('active');
+function updateBackgroundColors() {
+    // Slumpa 3 färger för början och 3 för animationen
+  
+    // Uppdatera CSS-variablerna med de slumpmässiga färgerna
+    document.documentElement.style.setProperty('--color1', randomColors[0]);
+    document.documentElement.style.setProperty('--color2', randomColors[1]);
+    document.documentElement.style.setProperty('--color3', randomColors[2]);
+    document.documentElement.style.setProperty('--color4', randomColors[3]);
+    document.documentElement.style.setProperty('--color5', randomColors[4]);
+    document.documentElement.style.setProperty('--color6', randomColors[5]);
+  }
+  
+  // Kör funktionen för att uppdatera bakgrundsfärgerna
+  updateBackgroundColors();
+
+const main = document.getElementById('main');
+document.querySelector('nav').addEventListener('click', (event) => {
+    if (event.target.tagName === 'A') {
+        event.preventDefault(); 
+        
+        const href = event.target.getAttribute('href');
+        handleNavigation(href);
     }
-    console.log(favorite)
+});
 
-    // Uppdatera localStorage
-    localStorage.setItem('favorites', JSON.stringify(favorite));
+function handleNavigation(href) {
+    switch (href) {
+        case "#start":
+            showStartPageMain ();
+            updateImages();
+            break;
+        case "#200best":
+            showBest200();
+            break;
+        case "#favorites":
+            showFavorites();
+            break;
+        default:
+            console.error("Okänd navigeringslänk");
+    }
 }
-
 
 function showBest200() {
     main.innerHTML = ""; // Töm main innan ny rendering
@@ -464,47 +439,6 @@ function showBest200() {
     main.appendChild(sectionB200);
 }
 
-
-function handleApiError(statusCode) {
-    switch (statusCode) {
-        case 200:
-            console.log("Allt gick bra! Dina data har hämtats framgångsrikt.");
-            break;
-        case 401:
-            console.error("Oj! Det verkar som att du inte är inloggad eller att din API-nyckel är ogiltig. Dubbelkolla och försök igen.");
-            break;
-        case 403:
-            console.error("Tyvärr, du har inte behörighet att komma åt den här resursen. Kontrollera dina rättigheter eller kontakta support.");
-            break;
-        case 404:
-            console.error("Vi hittade inte det du letade efter. Kontrollera att adressen eller resursen är korrekt.");
-            break;
-        case 405:
-            console.error("Metoden du försökte använda är inte tillåten för denna resurs. Kontrollera dokumentationen och försök igen.");
-            break;
-        case 422:
-            console.error("Något stämmer inte med de uppgifter du skickade in. Kontrollera och försök igen.");
-            break;
-        case 500:
-            console.error("Oj då! Något gick fel på servern. Försök igen senare, eller kontakta support om problemet kvarstår.");
-            break;
-        case 502:
-            console.error("Det verkar som att det är problem att ansluta till servern. Försök igen om en stund.");
-            break;
-        case 503:
-            console.error("Tjänsten är tillfälligt otillgänglig. Vi arbetar på att lösa problemet, försök igen senare.");
-            break;
-        case 504:
-            console.error("Din begäran tog för lång tid. Kanske är det hög belastning just nu. Försök igen senare.");
-            break;
-        case 429:
-            console.error("Oj, du har gjort för många förfrågningar på kort tid. Vänta lite och försök igen snart.");
-            break;
-        default:
-            console.error("Något oväntat hände. Vi kunde inte hantera statuskoden:", statusCode);
-    }
-}
-
 function showFavorites() {
     main.innerHTML = ""; // Töm main innan ny rendering
     const sectionButtons = document.createElement('section');
@@ -595,4 +529,67 @@ function showFavorites() {
 
     main.appendChild(sectionButtons);
     main.appendChild(favorites);
+}
+
+function toggleFavorite(film) {
+    const index = favorite.findIndex(f => f.id === film.id);
+    const favoriteToggle = document.getElementById('favorite-toggle');
+
+    if (index === -1) {
+        // Lägg till filmen i favoriter
+        favorite.push(film);
+        favoriteToggle.classList.remove('fa-regular');
+        favoriteToggle.classList.add('fa-solid');
+        document.getElementById('favorite-button').classList.add('active');
+    } else {
+        // Ta bort filmen från favoriter
+        favorite.splice(index, 1);
+        favoriteToggle.classList.remove('fa-solid');
+        favoriteToggle.classList.add('fa-regular');
+        document.getElementById('favorite-button').classList.remove('active');
+    }
+    console.log(favorite)
+
+    // Uppdatera localStorage
+    localStorage.setItem('favorites', JSON.stringify(favorite));
+}
+
+function handleApiError(statusCode) {
+    switch (statusCode) {
+        case 200:
+            console.log("Allt gick bra! Dina data har hämtats framgångsrikt.");
+            break;
+        case 401:
+            console.error("Oj! Det verkar som att du inte är inloggad eller att din API-nyckel är ogiltig. Dubbelkolla och försök igen.");
+            break;
+        case 403:
+            console.error("Tyvärr, du har inte behörighet att komma åt den här resursen. Kontrollera dina rättigheter eller kontakta support.");
+            break;
+        case 404:
+            console.error("Vi hittade inte det du letade efter. Kontrollera att adressen eller resursen är korrekt.");
+            break;
+        case 405:
+            console.error("Metoden du försökte använda är inte tillåten för denna resurs. Kontrollera dokumentationen och försök igen.");
+            break;
+        case 422:
+            console.error("Något stämmer inte med de uppgifter du skickade in. Kontrollera och försök igen.");
+            break;
+        case 500:
+            console.error("Oj då! Något gick fel på servern. Försök igen senare, eller kontakta support om problemet kvarstår.");
+            break;
+        case 502:
+            console.error("Det verkar som att det är problem att ansluta till servern. Försök igen om en stund.");
+            break;
+        case 503:
+            console.error("Tjänsten är tillfälligt otillgänglig. Vi arbetar på att lösa problemet, försök igen senare.");
+            break;
+        case 504:
+            console.error("Din begäran tog för lång tid. Kanske är det hög belastning just nu. Försök igen senare.");
+            break;
+        case 429:
+            console.error("Oj, du har gjort för många förfrågningar på kort tid. Vänta lite och försök igen snart.");
+            break;
+        default:
+            console.error("Något oväntat hände. Vi kunde inte hantera statuskoden:", statusCode);
+    }
 }
